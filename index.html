@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Космос: Таємниці Всесвіту</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #090a0f;
+      color: #e2e8f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      padding-bottom: 50px;
+    }
+
+    header {
+      background: linear-gradient(180deg, #16192b 0%, #090a0f 100%);
+      text-align: center;
+      padding: 40px 20px 20px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .info-section {
+      background-color: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+
+    .info-section h2 {
+      color: #f43f5e;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #1f2937;
+      padding-bottom: 5px;
+    }
+
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: #1f2937;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #38bdf8;
+    }
+
+    .card h3 {
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+
+    /* Інтерактивна космічна сцена */
+    .interactive-section {
+      background-color: #0d1117;
+      border: 2px solid #38bdf8;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .space-stage {
+      position: relative;
+      width: 100%;
+      height: 350px;
+      background: radial-gradient(ellipse at center, #1e1b4b 0%, #090a0f 100%);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    /* Зоряний пил */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(2px 2px at 30px 40px, #fff, rgba(0,0,0,0)),
+                  radial-gradient(2px 2px at 150px 120px, #fff, rgba(0,0,0,0)),
+                  radial-gradient(1px 1px at 280px 70px, #fff, rgba(0,0,0,0)),
+                  radial-gradient(2px 2px at 400px 250px, #fff, rgba(0,0,0,0));
+      background-size: 300px 300px;
+      opacity: 0.6;
+    }
+
+    /* Анімовані елементи */
+    .space-item {
+      position: absolute;
+      user-select: none;
+      transition: all 0.3s ease;
+    }
+
+    #rocket {
+      left: 50px;
+      bottom: 40px;
+      font-size: 3.5rem;
+    }
+
+    #planet {
+      right: 60px;
+      top: 50px;
+      font-size: 4rem;
+    }
+
+    #ufo {
+      left: 50%;
+      top: 30px;
+      transform: translateX(-50%);
+      font-size: 3rem;
+    }
+
+    /* CSS класи для анімацій через JS */
+    .fly-animation {
+      animation: rocketFlight 4s infinite ease-in-out;
+    }
+
+    .spin-animation {
+      animation: planetSpin 6s infinite linear;
+    }
+
+    .pulse-animation {
+      animation: ufoPulse 1.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes rocketFlight {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-150px) rotate(20deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @keyframes planetSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes ufoPulse {
+      from { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 2px #a855f7); }
+      to { transform: translateX(-50%) scale(1.2); filter: drop-shadow(0 0 12px #a855f7); }
+    }
+
+    /* Кнопки керування */
+    .controls-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    button {
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button:hover {
+      background: #0369a1;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    button.active {
+      background: #e11d48;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Загадковий Космос</h1>
+    <p class="subtitle">Інформаційний портал про дослідження Всесвіту</p>
+  </header>
+
+  <main>
+    <!-- Інформаційні блоки -->
+    <section class="info-section">
+      <h2>Про Всесвіт</h2>
+      <p>Всесвіт охоплює весь простір і час, а також усю матерію та енергію в ньому. Його вік оцінюється приблизно у 13.8 мільярда років, і він продовжує розширюватися з прискоренням.</p>
+      
+      <div class="grid-cards">
+        <div class="card">
+          <h3>Галактики</h3>
+          <p>Величезні гравітаційно-зв'язані системи із зірок, зоряних скупчень, міжзоряного газу та пилу.</p>
+        </div>
+        <div class="card">
+          <h3>Сонячна система</h3>
+          <p>Наша система складається з центральної зірки — Сонця — і 8 планет, що обертаються навколо нього.</p>
+        </div>
+        <div class="card">
+          <h3>Чорні діри</h3>
+          <p>Області простору-часу з настільки сильним гравітаційним притяганням, що його не може покинути навіть світло.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Блок з анімованими елементами та керуванням -->
+    <section class="interactive-section">
+      <h2>Інтерактивна модель космосу</h2>
+      <p>Використовуйте кнопки нижче для керування анімацією космічних об'єктів</p>
+
+      <div class="space-stage">
+        <div class="stars"></div>
+        <div id="rocket" class="space-item">🚀</div>
+        <div id="ufo" class="space-item">🛸</div>
+        <div id="planet" class="space-item">🪐</div>
+      </div>
+
+      <div class="controls-panel">
+        <button id="btnRocket">Політ ракети: ВИМК</button>
+        <button id="btnUfo">Сяйво НЛО: ВИМК</button>
+        <button id="btnPlanet">Обертання планети: ВИМК</button>
+        <button id="btnShiftRocket">Змістити ракету 🚀</button>
+        <button id="btnReset">Скинути все</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Елементи сцен
+    const rocket = document.getElementById('rocket');
+    const ufo = document.getElementById('ufo');
+    const planet = document.getElementById('planet');
+
+    // Кнопки
+    const btnRocket = document.getElementById('btnRocket');
+    const btnUfo = document.getElementById('btnUfo');
+    const btnPlanet = document.getElementById('btnPlanet');
+    const btnShiftRocket = document.getElementById('btnShiftRocket');
+    const btnReset = document.getElementById('btnReset');
+
+    let rocketPosition = 50;
+
+    // 1. Керування ракетою
+    btnRocket.addEventListener('click', () => {
+      rocket.classList.toggle('fly-animation');
+      const isActive = rocket.classList.contains('fly-animation');
+      btnRocket.textContent = `Політ ракети: ${isActive ? 'УВІМК' : 'ВИМК'}`;
+      btnRocket.classList.toggle('active', isActive);
+    });
+
+    // 2. Керування НЛО
+    btnUfo.addEventListener('click', () => {
+      ufo.classList.toggle('pulse-animation');
+      const isActive = ufo.classList.contains('pulse-animation');
+      btnUfo.textContent = `Сяйво НЛО: ${isActive ? 'УВІМК' : 'ВИМК'}`;
+      btnUfo.classList.toggle('active', isActive);
+    });
+
+    // 3. Керування планетою
+    btnPlanet.addEventListener('click', () => {
+      planet.classList.toggle('spin-animation');
+      const isActive = planet.classList.contains('spin-animation');
+      btnPlanet.textContent = `Обертання планети: ${isActive ? 'УВІМК' : 'ВИМК'}`;
+      btnPlanet.classList.toggle('active', isActive);
+    });
+
+    // 4. Ручне зміщення ракети по JS
+    btnShiftRocket.addEventListener('click', () => {
+      rocketPosition += 50;
+      if (rocketPosition > 500) rocketPosition = 20;
+      rocket.style.left = `${rocketPosition}px`;
+    });
+
+    // 5. Скидання
+    btnReset.addEventListener('click', () => {
+      rocket.className = 'space-item';
+      ufo.className = 'space-item';
+      planet.className = 'space-item';
+
+      btnRocket.textContent = 'Політ ракети: ВИМК';
+      btnUfo.textContent = 'Сяйво НЛО: ВИМК';
+      btnPlanet.textContent = 'Обертання планети: ВИМК';
+
+      btnRocket.classList.remove('active');
+      btnUfo.classList.remove('active');
+      btnPlanet.classList.remove('active');
+
+      rocketPosition = 50;
+      rocket.style.left = '50px';
+    });
+  </script>
+</body>
+</html>
